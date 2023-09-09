@@ -1,0 +1,25 @@
+languageName: "English (US)"
+
+commands:
+  warp:
+    notyours: "&cCannot warp - you do not own that private warp."
+    notfound: "&cCouldn't locate warp &f'&b%warp%&f'"
+    invalid: "&cCould not locate the warp location."
+
+    invite-invalid-used: "&cThis invite is no longer valid."
+
+  warpman:
+    nowarp: "&cThe provided warp does not exist."
+    notyours: "&cThe provided warp can only be edited by the creator."
+
+messages:
+  hovertext:
+    warp-button: "&a&lClick here to warp!"
+
+  invite-header: "&e=================================================\n&aYou've been invited to &r%warp%&r&a!\n&bInvite from &a%sender%\n&bUses left: &a%uses%\n"
+  invite-warp-button: "&b[&fWARP&b]"
+  invite-button-prefix: "&dClick here to warp: "
+  invite-footer: "\n&e================================================="
+
+  warping: "&4Warping you to &b%warp%&4..."
+

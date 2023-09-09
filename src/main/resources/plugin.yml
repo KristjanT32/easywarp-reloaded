@@ -1,0 +1,4 @@
+name: EasyWarp Reloaded
+version: '${project.version}'
+main: krisapps.easywarpreloaded.EasyWarpReloaded
+api-version: '1.19'
