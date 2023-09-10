@@ -2,3 +2,35 @@ name: EasyWarp Reloaded
 version: '${project.version}'
 main: krisapps.easywarpreloaded.EasyWarpReloaded
 api-version: '1.19'
+
+commands:
+  warp:
+    description: "Warps the player to a warp."
+    usage: "/warp <warp>"
+    permission: easywarp.warp
+
+  warpman:
+    description: "Manages warps' settings."
+    usage: "/warpman <create|edit|delete|list|view> <params...>"
+    permission: easywarp.warp
+    aliases:
+      - easywarp
+      - warpmanager
+
+  back:
+    description: "Attempts to return the player to whence they teleported from."
+    usage: "/back"
+    permission: easywarp.warp
+
+  invite:
+    description: "Creates and sends an invite to a private warp to the specified player."
+    usage: "/invite <player> <warp> <uses>"
+    permission: easywarp.warp
+    aliases:
+      - invitetowarp
+      - inviteplayer
+
+permissions:
+  easywarp.warp:
+    description: "The default permission, that allows access to the plugin's commands."
+    default: not op

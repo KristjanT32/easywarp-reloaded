@@ -8,9 +8,57 @@ commands:
 
     invite-invalid-used: "&cThis invite is no longer valid."
 
+  invite:
+    playeronly: "&cSorry, but this command can only be executed by a player."
+    offline: "&cIt appears that &b%player% &cis offline."
+    invalidplayer: "&cCould not find &b%player%&c."
+
+    sent: "&aInvite sent to &b%player%&a!"
+
+  back:
+    playeronly: "&cSorry, but this command can only be executed by a player."
+    nolocation: "&cNowhere to return to."
+    dim-disabled: "&cSorry, but dimensional warping is disabled."
+    returned: "&cReturned to the previous location."
+
   warpman:
     nowarp: "&cThe provided warp does not exist."
     notyours: "&cThe provided warp can only be edited by the creator."
+    nonempty: "&cThe new value cannot be empty."
+
+    edit:
+      success-coords: "&aSuccessfully updated the location of &b%warp%%isprivate%\n&f&uNew Location\n&eX: &b%x%\n&eY: &b%y%\n&eZ: &b%z%"
+      success-current: "&aSuccessfully updated the location of &b%warp%%isprivate% to match your location.\n&f&uNew Location\n&eX: &b%x%\n&eY: &b%y%\n&eZ: &b%z%"
+      success-generic: "&aSuccessfully updated &b%warp% &aproperty &e%property%:\n&bNow set to &f'%value%&f'"
+
+    delete:
+      nonexistent: "&cThe provided warp does not exist."
+      notyours: "&cYou cannot delete someone else's warp."
+
+      deleted-notown: "&aPrivate warp deleted. &eThe owner of the warp will be notified."
+      deleted-own: "&aPrivate warp deleted. &eAll valid invites to this warp will be invalidated."
+      deleted-public: "&aPublic warp deleted."
+
+    list:
+      header: "&fListing &b%type% &ewarps"
+      list-type-all: "all"
+      list-type-public: "public"
+      list-type-private: "private"
+
+      list-item: "&f* &e%warp% &f(&bowner: &e%owner%&f)&r"
+
+      notallowed: "&cSorry, but only operators can view all players."
+      empty-public: "&cThere aren't any public warps yet."
+      empty-private: "&cYou haven't created any private warps yet."
+      empty-private-op: "&cThere aren't any private warps yet."
+
+    view:
+      notfound: "&cCould not find warp: &b%warp%&r"
+      notyours: "&cCannot view information for another players' warps."
+
+      response: ""
+      warp-type-public: "public"
+      warp-type-private: "private"
 
 messages:
   hovertext:
@@ -22,4 +70,6 @@ messages:
   invite-footer: "\n&e================================================="
 
   warping: "&4Warping you to &b%warp%&4..."
+
+  op-warp-deletion: "&cYour warp &b%warp% &chas been deleted by an operator &f(&e%op%&f)&c."
 

@@ -1,0 +1,7 @@
+# Configuration file for ${project.name} ${project.version}
+
+settings:
+
+  # Controls, whether players can create warps in another dimensions
+  # and whether players can warp between dimensions.
+  allow-dimensional-warping: true

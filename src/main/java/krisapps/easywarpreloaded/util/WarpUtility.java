@@ -3,6 +3,7 @@ package krisapps.easywarpreloaded.util;
 import krisapps.easywarpreloaded.EasyWarpReloaded;
 import krisapps.easywarpreloaded.types.WarpProperty;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class WarpUtility {
@@ -13,16 +14,25 @@ public class WarpUtility {
         this.main = main;
     }
 
-    // TODO: Add warpPlayer(player, warpID, isPrivate)
     public void warpPlayer(Player player, String warpID, boolean isPrivate) {
         if (!isPrivate) {
             Location warpLocation = (Location) main.dataUtility.getProperty(WarpProperty.LOCATION, warpID, false);
             if (warpLocation != null) {
+
+                // Check if dimensional warping is disabled
+                if (!Boolean.parseBoolean(main.dataUtility.getConfigSetting("settings.allow-dimensional-warping")) && !warpLocation.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
+                    main.messageUtility.sendMessage(player, main.localizationUtility.getLocalizedPhrase("commands.warp.dim-disabled"));
+                    return;
+                }
+
+
                 main.messageUtility.sendMessage(player, main.localizationUtility.getLocalizedPhrase("messages.warping")
                         .replaceAll("%warp%", main.dataUtility.getProperty(WarpProperty.DISPLAY_NAME, warpID, false).toString())
                 );
+                main.pluginData.set("latestLocation." + player.getUniqueId(), player.getLocation());
+                main.saveData();
                 player.teleport(warpLocation);
-                if (main.dataUtility.getWelcomeMessage(warpID, false) != null) {
+                if (!main.dataUtility.getWelcomeMessage(warpID, false).isEmpty()) {
                     main.messageUtility.sendMessage(player, main.dataUtility.getWelcomeMessage(warpID, false));
                 }
             } else {
@@ -31,9 +41,18 @@ public class WarpUtility {
         } else {
             Location warpLocation = (Location) main.dataUtility.getProperty(WarpProperty.LOCATION, warpID, true);
             if (warpLocation != null) {
+
+                // Check if dimensional warping is disabled
+                if (!Boolean.parseBoolean(main.dataUtility.getConfigSetting("settings.allow-dimensional-warping")) && !warpLocation.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
+                    main.messageUtility.sendMessage(player, main.localizationUtility.getLocalizedPhrase("commands.warp.dim-disabled"));
+                    return;
+                }
+
                 main.messageUtility.sendMessage(player, main.localizationUtility.getLocalizedPhrase("messages.warping")
                         .replaceAll("%warp%", main.dataUtility.getProperty(WarpProperty.DISPLAY_NAME, warpID, true).toString())
                 );
+                main.pluginData.set("latestLocation." + player.getUniqueId(), player.getLocation());
+                main.saveData();
                 player.teleport(warpLocation);
                 if (main.dataUtility.getWelcomeMessage(warpID, true) != null) {
                     main.messageUtility.sendMessage(player, main.dataUtility.getWelcomeMessage(warpID, true));

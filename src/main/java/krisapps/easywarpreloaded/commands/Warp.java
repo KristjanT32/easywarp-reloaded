@@ -56,8 +56,9 @@ public class Warp implements CommandExecutor {
             } else {
                 main.appendToLog("Couldn't resolve flag: '" + flag + '\'');
             }
+        } else {
+            return false;
         }
-
         return true;
     }
 }

@@ -7,12 +7,17 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class MessageUtility {
 
@@ -35,6 +40,15 @@ public class MessageUtility {
      */
     public void sendMessage(CommandSender target, String message) {
         target.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    }
+
+    public void trySendMessage(UUID target, String message) {
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(target);
+        if (offlinePlayer.isOnline()) {
+            sendMessage(offlinePlayer.getPlayer(), message);
+        } else {
+            main.messageUtility.scheduleRemind(target, message);
+        }
     }
 
     /**
@@ -82,6 +96,19 @@ public class MessageUtility {
             out.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.translateAlternateColorCodes('&', main.localizationUtility.getLocalizedPhrase(hoverTextPath)))));
         }
         return out;
+    }
+
+    public void scheduleRemind(UUID player, String message) {
+        main.pluginData.set("reminders." + player + ".message" + (getRemindersFor(player) > 0 ? getRemindersFor(player) + 1 : 1), message);
+        main.saveData();
+    }
+
+    public Set<String> getReminders() {
+        return main.pluginData.getConfigurationSection("reminders") != null ? main.pluginData.getConfigurationSection("reminders").getKeys(false) : new HashSet<>(0);
+    }
+
+    private int getRemindersFor(UUID target) {
+        return main.pluginData.getConfigurationSection("reminders." + target).getKeys(false).size();
     }
 
 }

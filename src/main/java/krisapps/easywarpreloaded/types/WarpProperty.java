@@ -6,6 +6,7 @@ public enum WarpProperty {
     CREATOR,
     LOCATION,
     CREATION_DATE,
+    WELCOME_MESSAGE,
     DISPLAY_NAME
 
 }
