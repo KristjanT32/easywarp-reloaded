@@ -1,4 +1,4 @@
-name: EasyWarp Reloaded
+name: EasyWarp-Reloaded
 version: '${project.version}'
 main: krisapps.easywarpreloaded.EasyWarpReloaded
 api-version: '1.19'
@@ -29,6 +29,13 @@ commands:
     aliases:
       - invitetowarp
       - inviteplayer
+
+  setlanguage:
+    description: "Changes the language of the plugin."
+    usage: "/setlanguage <langCode>"
+    aliases:
+      - lang
+      - setlang
 
 permissions:
   easywarp.warp:

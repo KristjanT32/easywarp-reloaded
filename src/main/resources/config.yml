@@ -2,6 +2,9 @@
 
 settings:
 
+  # Controls the plugin language. The plugin manages this field internally.
+  language: en-US
+
   # Controls, whether players can create warps in another dimensions
   # and whether players can warp between dimensions.
   allow-dimensional-warping: true

@@ -1,10 +1,8 @@
 package krisapps.easywarpreloaded;
 
-import krisapps.easywarpreloaded.commands.BackCommand;
-import krisapps.easywarpreloaded.commands.InviteCommand;
-import krisapps.easywarpreloaded.commands.Warp;
-import krisapps.easywarpreloaded.commands.WarpManager;
+import krisapps.easywarpreloaded.commands.*;
 import krisapps.easywarpreloaded.commands.tabcompletion.InviteAC;
+import krisapps.easywarpreloaded.commands.tabcompletion.LanguageAC;
 import krisapps.easywarpreloaded.commands.tabcompletion.WarpAC;
 import krisapps.easywarpreloaded.commands.tabcompletion.WarpManagerAC;
 import krisapps.easywarpreloaded.events.listeners.PlayerJoinListener;
@@ -129,11 +127,13 @@ public final class EasyWarpReloaded extends JavaPlugin {
         getCommand("warpman").setExecutor(new WarpManager(this));
         getCommand("back").setExecutor(new BackCommand(this));
         getCommand("invite").setExecutor(new InviteCommand(this));
+        getCommand("setlanguage").setExecutor(new SetLanguage(this));
 
         // Tab Completion
         getCommand("warp").setTabCompleter(new WarpAC(this));
         getCommand("warpman").setTabCompleter(new WarpManagerAC(this));
         getCommand("invite").setTabCompleter(new InviteAC(this));
+        getCommand("setlanguage").setTabCompleter(new LanguageAC(this));
     }
 
     private void registerEvents() {
