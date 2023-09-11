@@ -40,4 +40,4 @@ commands:
 permissions:
   easywarp.warp:
     description: "The default permission, that allows access to the plugin's commands."
-    default: not op
+    default: true

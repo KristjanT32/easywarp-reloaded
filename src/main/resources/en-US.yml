@@ -19,12 +19,17 @@ commands:
     playeronly: "&cSorry, but this command can only be executed by a player."
     nolocation: "&cNowhere to return to."
     dim-disabled: "&cSorry, but dimensional warping is disabled."
-    returned: "&cReturned to the previous location."
+    returned: "&aReturned to the previous location."
 
   warpman:
     nowarp: "&cThe provided warp does not exist."
     notyours: "&cThe provided warp can only be edited by the creator."
     nonempty: "&cThe new value cannot be empty."
+
+    created: "&aCreated new warp &b%warp%&a!"
+
+    create:
+      taken: "&cWarp ID &b%warp% &cis already taken. &ePlease choose a different ID."
 
     edit:
       success-coords: "&aSuccessfully updated the location of &b%warp%%isprivate%\n&f&uNew Location\n&eX: &b%x%\n&eY: &b%y%\n&eZ: &b%z%"
@@ -47,7 +52,7 @@ commands:
 
       list-item: "&f* &e%warp% &f(&bowner: &e%owner%&f)&r"
 
-      notallowed: "&cSorry, but only operators can view all players."
+      notallowed: "&cSorry, but only operators can view all warps."
       empty-public: "&cThere aren't any public warps yet."
       empty-private: "&cYou haven't created any private warps yet."
       empty-private-op: "&cThere aren't any private warps yet."
@@ -56,7 +61,7 @@ commands:
       notfound: "&cCould not find warp: &b%warp%&r"
       notyours: "&cCannot view information for another players' warps."
 
-      response: ""
+      response: "&e=================================================\n&bWarp ID: &a%warp%\n&bDisplay Name: &a%name%\n&bOwner/Creator: &a%owner%\n&bLocation X: &a%x%\n&bLocation Y: &a%y%\n&bLocation Z: &a%z%\n&bDimension: &a%dimension%\n&bWarp Type: &a%type%\n&bCreated: &a%creationDate%\n&e================================================="
       warp-type-public: "public"
       warp-type-private: "private"
 
@@ -65,11 +70,11 @@ messages:
     warp-button: "&a&lClick here to warp!"
 
   invite-header: "&e=================================================\n&aYou've been invited to &r%warp%&r&a!\n&bInvite from &a%sender%\n&bUses left: &a%uses%\n"
-  invite-warp-button: "&b[&fWARP&b]"
-  invite-button-prefix: "&dClick here to warp: "
+  invite-warp-button: "&b[&eWarp&b]"
+  invite-button-prefix: "&aClick here to warp: "
   invite-footer: "\n&e================================================="
 
-  warping: "&4Warping you to &b%warp%&4..."
+  warping: "&6Warping you to &b%warp%&6..."
 
   op-warp-deletion: "&cYour warp &b%warp% &chas been deleted by an operator &f(&e%op%&f)&c."
 

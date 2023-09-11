@@ -1,7 +1,6 @@
 package krisapps.easywarpreloaded.commands;
 
 import krisapps.easywarpreloaded.EasyWarpReloaded;
-import krisapps.easywarpreloaded.types.WarpProperty;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,7 +9,6 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 public class Warp implements CommandExecutor {
-
     EasyWarpReloaded main;
 
     public Warp(EasyWarpReloaded main) {
@@ -27,10 +25,14 @@ public class Warp implements CommandExecutor {
                 main.warpUtility.warpPlayer(((Player) sender), warpID, false);
             } else {
                 if (main.dataUtility.privateWarpExists(warpID)) {
-                    if (main.dataUtility.getProperty(WarpProperty.OWNER, warpID, true).toString().equals(((Player) sender).getUniqueId())) {
+                    if (sender.isOp()) {
                         main.warpUtility.warpPlayer(((Player) sender), warpID, true);
                     } else {
-                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warp.notyours"));
+                        if (main.dataUtility.getOwner(warpID, true).toString().equals(((Player) sender).getUniqueId().toString())) {
+                            main.warpUtility.warpPlayer(((Player) sender), warpID, true);
+                        } else {
+                            main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warp.notyours"));
+                        }
                     }
                 } else {
                     main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warp.notfound")
@@ -47,6 +49,7 @@ public class Warp implements CommandExecutor {
                 if (warpID != null) {
                     if (main.dataUtility.getInviteUses(UUID.fromString(inviteUUID)) > 0) {
                         main.warpUtility.warpPlayer((Player) sender, warpID, main.dataUtility.isPrivate(warpID));
+                        main.dataUtility.decreaseInviteUses(UUID.fromString(inviteUUID), 1);
                     } else {
                         main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warp.invite-invalid-used"));
                     }

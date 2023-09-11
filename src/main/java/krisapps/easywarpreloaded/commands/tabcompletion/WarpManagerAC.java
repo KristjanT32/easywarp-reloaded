@@ -30,10 +30,14 @@ public class WarpManagerAC implements TabCompleter {
                     completions.add("<warpID>");
                     break;
                 case "edit":
-                    completions.add("<warpID>");
-                    break;
                 case "delete":
-                    completions.add("<warpID>");
+                case "view":
+                    if (sender.isOp()) {
+                        completions.addAll(main.dataUtility.getPublicWarps());
+                        completions.addAll(main.dataUtility.getPrivateWarps());
+                    } else {
+                        completions.addAll(main.dataUtility.getPrivateWarpsForPlayer(((Player) sender).getUniqueId()));
+                    }
                     break;
                 case "list":
                     if (sender.isOp()) {
@@ -41,9 +45,6 @@ public class WarpManagerAC implements TabCompleter {
                     } else {
                         completions.addAll(Arrays.asList("public", "private"));
                     }
-                    break;
-                case "view":
-                    completions.add("<warpID>");
                     break;
             }
         } else if (args.length == 3) {
@@ -61,19 +62,24 @@ public class WarpManagerAC implements TabCompleter {
         } else if (args.length == 4) {
             if (args[0].equalsIgnoreCase("edit")) {
                 if (args[2].equalsIgnoreCase("location")) {
+                    completions.add("current");
                     completions.add(String.valueOf(((Player) sender).getLocation().getBlockX()));
                 }
             }
         } else if (args.length == 5) {
             if (args[0].equalsIgnoreCase("edit")) {
                 if (args[2].equalsIgnoreCase("location")) {
-                    completions.add(String.valueOf(((Player) sender).getLocation().getBlockY()));
+                    if (!args[3].equalsIgnoreCase("current")) {
+                        completions.add(String.valueOf(((Player) sender).getLocation().getBlockY()));
+                    }
                 }
             }
         } else if (args.length == 6) {
             if (args[0].equalsIgnoreCase("edit")) {
                 if (args[2].equalsIgnoreCase("location")) {
-                    completions.add(String.valueOf(((Player) sender).getLocation().getBlockZ()));
+                    if (!args[3].equalsIgnoreCase("current")) {
+                        completions.add(String.valueOf(((Player) sender).getLocation().getBlockZ()));
+                    }
                 }
             }
         }

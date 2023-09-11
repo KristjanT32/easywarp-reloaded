@@ -5,7 +5,10 @@ import krisapps.easywarpreloaded.types.WarpEntry;
 import krisapps.easywarpreloaded.types.WarpProperty;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
@@ -66,10 +69,10 @@ public class DataUtility {
             main.pluginData.set("publicwarps." + id + ".location.x", location.getBlockX());
             main.pluginData.set("publicwarps." + id + ".location.y", location.getBlockY());
             main.pluginData.set("publicwarps." + id + ".location.z", location.getBlockZ());
-            main.pluginData.set("publicwarps." + id + ".location.world", location.getWorld());
+            main.pluginData.set("publicwarps." + id + ".location.world", location.getWorld().getUID().toString());
             main.pluginData.set("publicwarps." + id + ".location.dimension", location.getWorld().getEnvironment());
             main.pluginData.set("publicwarps." + id + ".displayName", displayName);
-            main.pluginData.set("publicwarps." + id + ".creator", creator.getUniqueId());
+            main.pluginData.set("publicwarps." + id + ".creator", creator.getUniqueId().toString());
             main.pluginData.set("publicwarps." + id + ".creationDate", new Date());
             main.pluginData.set("publicwarps." + id + ".welcomeMessage", "");
             main.saveData();
@@ -77,12 +80,12 @@ public class DataUtility {
             main.pluginData.set("privatewarps." + id + ".location.x", location.getBlockX());
             main.pluginData.set("privatewarps." + id + ".location.y", location.getBlockY());
             main.pluginData.set("privatewarps." + id + ".location.z", location.getBlockZ());
-            main.pluginData.set("privatewarps." + id + ".location.world", location.getWorld());
+            main.pluginData.set("privatewarps." + id + ".location.world", location.getWorld().getUID().toString());
             main.pluginData.set("privatewarps." + id + ".location.dimension", location.getWorld().getEnvironment());
-            main.pluginData.set("publicwarps." + id + ".displayName", displayName);
-            main.pluginData.set("privatewarps." + id + ".owner", creator.getUniqueId());
+            main.pluginData.set("privatewarps." + id + ".displayName", displayName);
+            main.pluginData.set("privatewarps." + id + ".owner", creator.getUniqueId().toString());
             main.pluginData.set("privatewarps." + id + ".creationDate", new Date());
-            main.pluginData.set("publicwarps." + id + ".welcomeMessage", "");
+            main.pluginData.set("privatewarps." + id + ".welcomeMessage", "");
             main.saveData();
         }
     }
@@ -111,7 +114,7 @@ public class DataUtility {
     public Set<String> getPrivateWarpsForPlayer(UUID player) {
         Set<String> warps = new HashSet<>();
         for (String warpID : getPrivateWarps()) {
-            if (getProperty(WarpProperty.OWNER, warpID, true) == player) {
+            if (UUID.fromString(getProperty(WarpProperty.OWNER, warpID, true).toString()) == player) {
                 warps.add(warpID);
             }
         }
@@ -168,14 +171,14 @@ public class DataUtility {
             case LOCATION:
                 if (isPrivate) {
                     return new Location(
-                            main.pluginData.getObject("privatewarps." + warpID + ".location.world", World.class),
+                            Bukkit.getWorld(UUID.fromString(main.pluginData.getString("privatewarps." + warpID + ".location.world"))),
                             main.pluginData.getDouble("privatewarps." + warpID + ".location.x"),
                             main.pluginData.getDouble("privatewarps." + warpID + ".location.y"),
                             main.pluginData.getDouble("privatewarps." + warpID + ".location.z")
                     );
                 } else {
                     return new Location(
-                            main.pluginData.getObject("publicwarps." + warpID + ".location.world", World.class),
+                            Bukkit.getWorld(UUID.fromString(main.pluginData.getString("publicwarps." + warpID + ".location.world"))),
                             main.pluginData.getDouble("publicwarps." + warpID + ".location.x"),
                             main.pluginData.getDouble("publicwarps." + warpID + ".location.y"),
                             main.pluginData.getDouble("publicwarps." + warpID + ".location.z")
@@ -184,7 +187,7 @@ public class DataUtility {
             case CREATION_DATE:
                 return main.pluginData.getObject((isPrivate ? "privatewarps." : "publicwarps.") + warpID + ".creationDate", Date.class);
             case DISPLAY_NAME:
-                return main.pluginData.getObject((isPrivate ? "privatewarps." : "publicwarps.") + warpID + ".displayName", Date.class);
+                return main.pluginData.getString((isPrivate ? "privatewarps." : "publicwarps.") + warpID + ".displayName");
             case WELCOME_MESSAGE:
                 return main.pluginData.getString((isPrivate ? "privatewarps." : "publicwarps.") + warpID + ".welcomeMessage");
             default:
@@ -194,12 +197,9 @@ public class DataUtility {
 
     public UUID createInvite(Player sender, Player target, String warpID, int uses) {
         UUID uuid = UUID.randomUUID();
-        if (main.pluginData.getConfigurationSection("invites").contains(uuid.toString())) {
-            uuid = UUID.randomUUID();
-        }
 
-        main.pluginData.set("invites." + uuid.toString() + ".creator", sender.getUniqueId());
-        main.pluginData.set("invites." + uuid.toString() + ".target", target.getUniqueId());
+        main.pluginData.set("invites." + uuid.toString() + ".creator", sender.getUniqueId().toString());
+        main.pluginData.set("invites." + uuid.toString() + ".target", target.getUniqueId().toString());
         main.pluginData.set("invites." + uuid.toString() + ".warp", warpID);
         main.pluginData.set("invites." + uuid.toString() + ".uses", uses);
         main.saveData();
@@ -250,9 +250,23 @@ public class DataUtility {
                 .replaceAll("%sender%", sender.getName())
                 .replaceAll("%uses%", String.valueOf(getInviteUses(inviteID)))
         ));
-        BaseComponent button = main.messageUtility.createClickableButton("messages.invite-button-prefix", "warp -i " + inviteID.toString(), "messages.hovertext.warp-button");
+        BaseComponent component2 = new TextComponent(ChatColor.translateAlternateColorCodes('&', main.localizationUtility.getLocalizedPhrase("messages.invite-button-prefix")));
+        BaseComponent button = main.messageUtility.createClickableButton("messages.invite-warp-button", "/warp -i " + inviteID.toString(), "messages.hovertext.warp-button");
+        BaseComponent footer = new TextComponent(ChatColor.translateAlternateColorCodes('&', main.localizationUtility.getLocalizedPhrase("messages.invite-footer")));
 
-        target.spigot().sendMessage(component, button);
+        target.spigot().sendMessage(component, component2, button, footer);
+    }
+
+    public void decreaseInviteUses(UUID inviteUUID, int decreaseBy) {
+        if (inviteExists(inviteUUID)) {
+            if (getInviteUses(inviteUUID) > 0) {
+                main.pluginData.set("invites." + inviteUUID.toString() + ".uses", getInviteUses(inviteUUID) - decreaseBy);
+                main.saveData();
+            } else {
+                main.pluginData.set("invites." + inviteUUID.toString(), null);
+                main.saveData();
+            }
+        }
     }
 
     @SuppressWarnings("ConstantConditions")

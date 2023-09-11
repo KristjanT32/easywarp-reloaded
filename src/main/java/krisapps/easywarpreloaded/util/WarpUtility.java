@@ -32,7 +32,7 @@ public class WarpUtility {
                 main.pluginData.set("latestLocation." + player.getUniqueId(), player.getLocation());
                 main.saveData();
                 player.teleport(warpLocation);
-                if (!main.dataUtility.getWelcomeMessage(warpID, false).isEmpty()) {
+                if (!main.dataUtility.getWelcomeMessage(warpID, false).isEmpty() && main.dataUtility.getWelcomeMessage(warpID, false) != null) {
                     main.messageUtility.sendMessage(player, main.dataUtility.getWelcomeMessage(warpID, false));
                 }
             } else {
@@ -54,7 +54,7 @@ public class WarpUtility {
                 main.pluginData.set("latestLocation." + player.getUniqueId(), player.getLocation());
                 main.saveData();
                 player.teleport(warpLocation);
-                if (main.dataUtility.getWelcomeMessage(warpID, true) != null) {
+                if (main.dataUtility.getWelcomeMessage(warpID, true) != null && !main.dataUtility.getWelcomeMessage(warpID, true).isEmpty()) {
                     main.messageUtility.sendMessage(player, main.dataUtility.getWelcomeMessage(warpID, true));
                 }
             } else {

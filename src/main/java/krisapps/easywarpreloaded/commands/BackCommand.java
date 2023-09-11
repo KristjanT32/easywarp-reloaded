@@ -29,6 +29,9 @@ public class BackCommand implements CommandExecutor {
                     } else {
                         main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.back.dim-disabled"));
                     }
+                } else {
+                    ((Player) sender).teleport(prev);
+                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.back.returned"));
                 }
             } else {
                 main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.back.nolocation"));
@@ -36,8 +39,6 @@ public class BackCommand implements CommandExecutor {
         } else {
             main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.back.playeronly"));
         }
-
-
         return true;
     }
 }

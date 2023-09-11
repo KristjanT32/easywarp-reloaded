@@ -32,7 +32,7 @@ public class InviteCommand implements CommandExecutor {
                 if (offlinePlayer.isOnline()) {
                     main.dataUtility.sendPrivateWarpInvite(offlinePlayer.getPlayer(), (Player) sender, warpID, uses);
                     main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.invite.sent")
-                            .replaceAll("%target%", playerName)
+                            .replaceAll("%player%", playerName)
                     );
                 } else {
                     if (offlinePlayer.hasPlayedBefore()) {
