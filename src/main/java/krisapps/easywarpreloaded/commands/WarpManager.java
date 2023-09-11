@@ -97,7 +97,7 @@ public class WarpManager implements CommandExecutor {
 
                                 } else {
                                     // If the player wants to set the warp position to their own position.
-                                    if (newValue.toString().equalsIgnoreCase("current")) {
+                                    if (newValue.toString().contains("current")) {
                                         Location locationToSet = ((Player) sender).getLocation();
                                         main.dataUtility.updateWarpEntry(warpID, "location.x", String.valueOf(locationToSet.getBlockX()),
                                                 isPrivate);
@@ -105,7 +105,7 @@ public class WarpManager implements CommandExecutor {
                                                 isPrivate);
                                         main.dataUtility.updateWarpEntry(warpID, "location.z", String.valueOf(locationToSet.getBlockZ()),
                                                 isPrivate);
-                                        main.dataUtility.updateWarpEntry(warpID, "location.world", String.valueOf(locationToSet.getWorld()),
+                                        main.dataUtility.updateWarpEntry(warpID, "location.world", String.valueOf(locationToSet.getWorld().getUID()),
                                                 isPrivate);
                                         main.dataUtility.updateWarpEntry(warpID, "location.dimension", String.valueOf(locationToSet.getWorld().getEnvironment()),
                                                 isPrivate);
@@ -202,7 +202,12 @@ public class WarpManager implements CommandExecutor {
                                     for (WarpEntry warpEntry : main.dataUtility.getAllWarps()) {
                                         Optional<Player> owner = main.dataUtility.tryGetPlayer(warpEntry.getOwner());
                                         main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.list.list-item")
-                                                .replaceAll("%warp%", warpEntry.getWarpID())
+                                                .replaceAll("%warp%",
+                                                        (warpEntry.getType().equalsIgnoreCase("public")
+                                                                ? "&b&l" + main.localizationUtility.getLocalizedPhrase("commands.warpman.view.warp-type-public")
+                                                                : "&c&l" + main.localizationUtility.getLocalizedPhrase("commands.warpman.view.warp-type-private")
+                                                        ) + " &r&e-&r " +
+                                                                warpEntry.getWarpID())
                                                 .replaceAll("%owner%", owner.isPresent() ? owner.get().getName() : "&cN/A")
                                         );
                                     }
@@ -311,18 +316,18 @@ public class WarpManager implements CommandExecutor {
     }
 
     private void sendResponse(CommandSender sender, String warpID, boolean isPrivate) {
-        Location warpLocation = (Location) main.dataUtility.getProperty(WarpProperty.LOCATION, warpID, true);
+        Location warpLocation = (Location) main.dataUtility.getProperty(WarpProperty.LOCATION, warpID, isPrivate);
         Optional<Player> owner = main.dataUtility.tryGetPlayer(main.dataUtility.getOwner(warpID, isPrivate));
         main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.view.response")
                 .replaceAll("%warp%", warpID)
-                .replaceAll("%name%", main.dataUtility.getProperty(WarpProperty.DISPLAY_NAME, warpID, true).toString())
+                .replaceAll("%name%", main.dataUtility.getProperty(WarpProperty.DISPLAY_NAME, warpID, isPrivate).toString())
                 .replaceAll("%owner%", owner.isPresent() ? owner.get().getName() : main.dataUtility.getOwner(warpID, isPrivate).toString())
                 .replaceAll("%x%", String.valueOf(warpLocation.getBlockX()))
                 .replaceAll("%y%", String.valueOf(warpLocation.getBlockY()))
                 .replaceAll("%z%", String.valueOf(warpLocation.getBlockZ()))
                 .replaceAll("%dimension%", String.valueOf(warpLocation.getWorld().getEnvironment()))
                 .replaceAll("%type%", (isPrivate ? main.localizationUtility.getLocalizedPhrase("commands.warpman.view.warp-type-private") : main.localizationUtility.getLocalizedPhrase("commands.warpman.view.warp-type-public")))
-                .replaceAll("%creationDate%", main.dataUtility.getProperty(WarpProperty.CREATION_DATE, warpID, true).toString())
+                .replaceAll("%creationDate%", main.dataUtility.getProperty(WarpProperty.CREATION_DATE, warpID, isPrivate).toString())
         );
     }
 }

@@ -32,8 +32,8 @@ commands:
       taken: "&cWarp ID &b%warp% &cis already taken. &ePlease choose a different ID."
 
     edit:
-      success-coords: "&aSuccessfully updated the location of &b%warp%%isprivate%\n&f&uNew Location\n&eX: &b%x%\n&eY: &b%y%\n&eZ: &b%z%"
-      success-current: "&aSuccessfully updated the location of &b%warp%%isprivate% to match your location.\n&f&uNew Location\n&eX: &b%x%\n&eY: &b%y%\n&eZ: &b%z%"
+      success-coords: "&aSuccessfully updated the location of &b%warp%%isprivate%\n&f&nNew Location\n&eX: &b%x%\n&eY: &b%y%\n&eZ: &b%z%"
+      success-current: "&aSuccessfully updated the location of &b%warp%%isprivate% to match your location.\n&f&nNew Location\n&eX: &b%x%\n&eY: &b%y%\n&eZ: &b%z%"
       success-generic: "&aSuccessfully updated &b%warp% &aproperty &e%property%:\n&bNow set to &f'%value%&f'"
 
     delete:

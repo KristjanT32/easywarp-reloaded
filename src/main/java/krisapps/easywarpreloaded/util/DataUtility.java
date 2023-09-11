@@ -114,7 +114,7 @@ public class DataUtility {
     public Set<String> getPrivateWarpsForPlayer(UUID player) {
         Set<String> warps = new HashSet<>();
         for (String warpID : getPrivateWarps()) {
-            if (UUID.fromString(getProperty(WarpProperty.OWNER, warpID, true).toString()) == player) {
+            if (getOwner(warpID, true).toString().equals(player.toString())) {
                 warps.add(warpID);
             }
         }
@@ -125,10 +125,10 @@ public class DataUtility {
         Set<WarpEntry> warps = new HashSet<>();
 
         for (String warp : getPublicWarps()) {
-            warps.add(new WarpEntry(warp, UUID.fromString(getProperty(WarpProperty.CREATOR, warp, false).toString())));
+            warps.add(new WarpEntry(warp, UUID.fromString(getProperty(WarpProperty.CREATOR, warp, false).toString()), false));
         }
         for (String warp : getPrivateWarps()) {
-            warps.add(new WarpEntry(warp, UUID.fromString(getProperty(WarpProperty.OWNER, warp, true).toString())));
+            warps.add(new WarpEntry(warp, UUID.fromString(getProperty(WarpProperty.OWNER, warp, true).toString()), true));
         }
 
         return warps;
@@ -242,11 +242,11 @@ public class DataUtility {
         return UUID.fromString(main.pluginData.getString((isPrivate ? "privatewarps." : "publicwarps.") + warpID + (isPrivate ? ".owner" : ".creator")));
     }
 
-    public void sendPrivateWarpInvite(Player target, Player sender, String warpID, int uses) {
+    public void sendPrivateWarpInvite(Player target, Player sender, String warpID, int uses, boolean isPrivate) {
         UUID inviteID = createInvite(sender, target, warpID, uses);
 
         BaseComponent component = new TextComponent(ChatColor.translateAlternateColorCodes('&', main.localizationUtility.getLocalizedPhrase("messages.invite-header")
-                .replaceAll("%warp%", getProperty(WarpProperty.DISPLAY_NAME, warpID, true).toString())
+                .replaceAll("%warp%", getProperty(WarpProperty.DISPLAY_NAME, warpID, isPrivate).toString())
                 .replaceAll("%sender%", sender.getName())
                 .replaceAll("%uses%", String.valueOf(getInviteUses(inviteID)))
         ));

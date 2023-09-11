@@ -30,7 +30,7 @@ public class InviteCommand implements CommandExecutor {
 
                 OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
                 if (offlinePlayer.isOnline()) {
-                    main.dataUtility.sendPrivateWarpInvite(offlinePlayer.getPlayer(), (Player) sender, warpID, uses);
+                    main.dataUtility.sendPrivateWarpInvite(offlinePlayer.getPlayer(), (Player) sender, warpID, uses, main.dataUtility.isPrivate(warpID));
                     main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.invite.sent")
                             .replaceAll("%player%", playerName)
                     );
