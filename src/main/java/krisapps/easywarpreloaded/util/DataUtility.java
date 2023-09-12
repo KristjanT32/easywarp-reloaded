@@ -1,6 +1,7 @@
 package krisapps.easywarpreloaded.util;
 
 import krisapps.easywarpreloaded.EasyWarpReloaded;
+import krisapps.easywarpreloaded.types.Invite;
 import krisapps.easywarpreloaded.types.WarpEntry;
 import krisapps.easywarpreloaded.types.WarpProperty;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -109,6 +110,8 @@ public class DataUtility {
         } else {
             main.pluginData.set("publicwarps." + warpID, null);
         }
+
+        invalidateInvites(warpID);
     }
 
     public Set<String> getPrivateWarpsForPlayer(UUID player) {
@@ -276,6 +279,55 @@ public class DataUtility {
             return Optional.of(offlinePlayer.getPlayer());
         } else {
             return Optional.empty();
+        }
+    }
+
+    public Set<String> getInvites() {
+        if (main.pluginData.getConfigurationSection("invites") != null) {
+            return main.pluginData.getConfigurationSection("invites").getKeys(false);
+        } else {
+            return new HashSet<>(0);
+        }
+    }
+
+    public Set<String> getInvitesFor(String warpID) {
+        Set<String> matches = new HashSet<>();
+        for (String inviteUUID : getInvites()) {
+            if (getWarpByInvite(UUID.fromString(inviteUUID)).equals(warpID)) {
+                matches.add(inviteUUID);
+            }
+        }
+        return matches;
+    }
+
+    public ArrayList<Invite> getInviteEntriesFor(String warpID) {
+        ArrayList<Invite> invites = new ArrayList<>();
+        for (String inviteUUID : getInvites()) {
+            if (getWarpByInvite(UUID.fromString(inviteUUID)).equals(warpID)) {
+                invites.add(new Invite(
+                        main.pluginData.getString("invites." + inviteUUID + ".warp"),
+                        UUID.fromString(inviteUUID),
+                        main.pluginData.getInt("invites." + inviteUUID + ".uses"),
+                        Bukkit.getOfflinePlayer(UUID.fromString(main.pluginData.getString("invites." + inviteUUID + ".creator"))),
+                        Bukkit.getOfflinePlayer(UUID.fromString(main.pluginData.getString("invites." + inviteUUID + ".target")))
+                ));
+            }
+        }
+        return invites;
+    }
+
+    public void invalidateInvites(String warpID) {
+        for (Invite invite : getInviteEntriesFor(warpID)) {
+            main.appendToLog("Invalidating invite " + invite.getInviteID());
+            main.pluginData.set("invites." + invite.getInviteID().toString(), null);
+            main.saveData();
+        }
+    }
+
+    public void invalidateInvite(String inviteID) {
+        if (inviteExists(UUID.fromString(inviteID))) {
+            main.pluginData.set("invites." + inviteID, null);
+            main.saveData();
         }
     }
 

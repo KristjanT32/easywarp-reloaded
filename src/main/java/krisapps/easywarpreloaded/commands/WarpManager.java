@@ -156,7 +156,7 @@ public class WarpManager implements CommandExecutor {
                         // Deleting a private warp
                         if (main.dataUtility.isPrivate(warpID)) {
                             // If the sender is not the owner of the warp in question.
-                            if (main.dataUtility.getOwner(warpID, true).toString().equals(((Player) sender).getUniqueId().toString())) {
+                            if (!main.dataUtility.getOwner(warpID, true).toString().equals(((Player) sender).getUniqueId().toString())) {
                                 if (!sender.isOp()) {
                                     main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpmap.delete.notyours"));
                                 } else {

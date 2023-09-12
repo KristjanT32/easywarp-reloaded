@@ -4,9 +4,11 @@ commands:
   warp:
     notyours: "&cCannot warp - you do not own that private warp."
     notfound: "&cCouldn't locate warp &f'&b%warp%&f'"
-    invalid: "&cCould not locate the warp location."
+    invalid: "&cInvalid invite: &efailed to locate the target warp."
+    notvalid: "&cThis invite is no longer valid."
 
-    invite-invalid-used: "&cThis invite is no longer valid."
+    invite-invalid-used: "&cThis invite has no uses left. &fRequest a new one from the sender."
+    unknown-operation: "&cUnknown operation."
 
   invite:
     playeronly: "&cSorry, but this command can only be executed by a player."
@@ -20,6 +22,17 @@ commands:
     nolocation: "&cNowhere to return to."
     dim-disabled: "&cSorry, but dimensional warping is disabled."
     returned: "&aReturned to the previous location."
+
+  invites:
+    nonexistent: "&cThe specified warp does not exist."
+    notyours: "&cCannot view invites for another player's warp."
+    none: "&cThere's no valid invites for &b%warp%&c."
+
+    invite: "&aInvite &7%id% &e\n  - &f(&buses left: &a%uses%&f, &bplayer: &a%player%&f)&r - "
+    button-invalidate: "&f[&cInvalidate&f]"
+    button-invalidate-hover: "&c&lInvalidate invite\n&7If you wish to revoke this invite, stopping the target player from using it to get to your warp, click on this button."
+
+    invalidated: "&aSuccessfully invalidated the invite. Players won't be able to use it anymore."
 
   warpman:
     nowarp: "&cThe provided warp does not exist."

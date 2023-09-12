@@ -47,6 +47,12 @@ public class Warp implements CommandExecutor {
             if (flag.contains("-i")) {
                 String warpID = main.dataUtility.getWarpByInvite(UUID.fromString(inviteUUID));
                 if (warpID != null) {
+
+                    if (!main.dataUtility.inviteExists(UUID.fromString(args[1]))) {
+                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warp.notvalid"));
+                        return true;
+                    }
+
                     if (main.dataUtility.getInviteUses(UUID.fromString(inviteUUID)) > 0) {
                         main.warpUtility.warpPlayer((Player) sender, warpID, main.dataUtility.isPrivate(warpID));
                         main.dataUtility.decreaseInviteUses(UUID.fromString(inviteUUID), 1);
@@ -58,6 +64,7 @@ public class Warp implements CommandExecutor {
                 }
             } else {
                 main.appendToLog("Couldn't resolve flag: '" + flag + '\'');
+                main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warp.unknown-operation"));
             }
         } else {
             return false;

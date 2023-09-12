@@ -12,7 +12,7 @@ commands:
   warpman:
     description: "Manages warps' settings."
     usage: "/warpman <create|edit|delete|list|view> <params...>"
-    permission: easywarp.warp
+    permission: easywarp.create
     aliases:
       - easywarp
       - warpmanager
@@ -37,7 +37,18 @@ commands:
       - lang
       - setlang
 
+  invites:
+    description: "Shows invites for a warp."
+    usage: "/invites <warp>"
+    permission: easywarp.create
+    aliases:
+      - viewinvites
+      - listinvites
+
 permissions:
   easywarp.warp:
-    description: "The default permission, that allows access to the plugin's commands."
+    description: "The default permission, allows warping"
+    default: true
+  easywarp.create:
+    description: "Allows players to create, edit and delete warps."
     default: true
