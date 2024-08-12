@@ -21,7 +21,7 @@ public class LanguageAC implements TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            completions.addAll(main.localizationUtility.getLanguages());
+            completions.addAll(main.localizationUtility.getRecognizedLanguages());
         }
 
         return completions;

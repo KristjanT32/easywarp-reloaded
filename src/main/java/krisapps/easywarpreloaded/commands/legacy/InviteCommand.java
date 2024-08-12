@@ -1,4 +1,4 @@
-package krisapps.easywarpreloaded.commands;
+package krisapps.easywarpreloaded.commands.legacy;
 
 import krisapps.easywarpreloaded.EasyWarpReloaded;
 import org.bukkit.Bukkit;
@@ -31,16 +31,19 @@ public class InviteCommand implements CommandExecutor {
                 OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
                 if (offlinePlayer.isOnline()) {
                     main.dataUtility.sendPrivateWarpInvite(offlinePlayer.getPlayer(), (Player) sender, warpID, uses, main.dataUtility.isPrivate(warpID));
-                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.invite.sent")
+                    main.messageUtility.sendMessage(sender,
+                            main.localizationUtility.getLocalizedString("commands.invite.sent")
                             .replaceAll("%player%", playerName)
                     );
                 } else {
                     if (offlinePlayer.hasPlayedBefore()) {
-                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.invite.offline")
+                        main.messageUtility.sendMessage(sender,
+                                main.localizationUtility.getLocalizedString("commands.invite.offline")
                                 .replaceAll("%player%", playerName)
                         );
                     } else {
-                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.invite.invalidplayer")
+                        main.messageUtility.sendMessage(sender,
+                                main.localizationUtility.getLocalizedString("commands.invite.invalidplayer")
                                 .replaceAll("%player%", playerName)
                         );
                     }
@@ -49,7 +52,9 @@ public class InviteCommand implements CommandExecutor {
                 return false;
             }
         } else {
-            main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.invite.playeronly"));
+            main.messageUtility.sendMessage(sender,
+                    main.localizationUtility.getLocalizedString("commands.invite.playeronly")
+            );
         }
         return true;
     }

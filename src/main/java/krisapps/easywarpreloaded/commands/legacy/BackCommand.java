@@ -1,4 +1,4 @@
-package krisapps.easywarpreloaded.commands;
+package krisapps.easywarpreloaded.commands.legacy;
 
 import krisapps.easywarpreloaded.EasyWarpReloaded;
 import org.bukkit.Location;
@@ -25,19 +25,29 @@ public class BackCommand implements CommandExecutor {
                 if (!prev.getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
                     if (Boolean.parseBoolean(main.dataUtility.getConfigSetting("settings.allow-dimensional-warping"))) {
                         ((Player) sender).teleport(prev);
-                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.back.returned"));
+                        main.messageUtility.sendMessage(sender,
+                                main.localizationUtility.getLocalizedString("commands.back.returned")
+                        );
                     } else {
-                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.back.dim-disabled"));
+                        main.messageUtility.sendMessage(sender,
+                                main.localizationUtility.getLocalizedString("commands.back.dim-disabled")
+                        );
                     }
                 } else {
                     ((Player) sender).teleport(prev);
-                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.back.returned"));
+                    main.messageUtility.sendMessage(sender,
+                            main.localizationUtility.getLocalizedString("commands.back.returned")
+                    );
                 }
             } else {
-                main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.back.nolocation"));
+                main.messageUtility.sendMessage(sender,
+                        main.localizationUtility.getLocalizedString("commands.back.nolocation")
+                );
             }
         } else {
-            main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.back.playeronly"));
+            main.messageUtility.sendMessage(sender,
+                    main.localizationUtility.getLocalizedString("commands.back.playeronly")
+            );
         }
         return true;
     }

@@ -1,4 +1,4 @@
-package krisapps.easywarpreloaded.commands;
+package krisapps.easywarpreloaded.commands.legacy;
 
 import krisapps.easywarpreloaded.EasyWarpReloaded;
 import org.bukkit.command.Command;
@@ -31,11 +31,14 @@ public class Warp implements CommandExecutor {
                         if (main.dataUtility.getOwner(warpID, true).toString().equals(((Player) sender).getUniqueId().toString())) {
                             main.warpUtility.warpPlayer(((Player) sender), warpID, true);
                         } else {
-                            main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warp.notyours"));
+                            main.messageUtility.sendMessage(sender,
+                                    main.localizationUtility.getLocalizedString("commands.warp.notyours")
+                            );
                         }
                     }
                 } else {
-                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warp.notfound")
+                    main.messageUtility.sendMessage(sender,
+                            main.localizationUtility.getLocalizedString("commands.warp.notfound")
                             .replaceAll("%warp%", warpID)
                     );
                 }
@@ -49,7 +52,9 @@ public class Warp implements CommandExecutor {
                 if (warpID != null) {
 
                     if (!main.dataUtility.inviteExists(UUID.fromString(args[1]))) {
-                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warp.notvalid"));
+                        main.messageUtility.sendMessage(sender,
+                                main.localizationUtility.getLocalizedString("commands.warp.notvalid")
+                        );
                         return true;
                     }
 
@@ -57,14 +62,20 @@ public class Warp implements CommandExecutor {
                         main.warpUtility.warpPlayer((Player) sender, warpID, main.dataUtility.isPrivate(warpID));
                         main.dataUtility.decreaseInviteUses(UUID.fromString(inviteUUID), 1);
                     } else {
-                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warp.invite-invalid-used"));
+                        main.messageUtility.sendMessage(sender,
+                                main.localizationUtility.getLocalizedString("commands.warp.invite-invalid-used")
+                        );
                     }
                 } else {
-                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warp.invalid"));
+                    main.messageUtility.sendMessage(sender,
+                            main.localizationUtility.getLocalizedString("commands.warp.invalid")
+                    );
                 }
             } else {
                 main.appendToLog("Couldn't resolve flag: '" + flag + '\'');
-                main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warp.unknown-operation"));
+                main.messageUtility.sendMessage(sender,
+                        main.localizationUtility.getLocalizedString("commands.warp.unknown-operation")
+                );
             }
         } else {
             return false;

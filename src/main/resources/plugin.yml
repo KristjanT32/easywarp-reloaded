@@ -49,6 +49,12 @@ permissions:
   easywarp.warp:
     description: "The default permission, allows warping"
     default: true
-  easywarp.create:
-    description: "Allows players to create, edit and delete warps."
+  easywarp.useprivatewarps:
+    description: "Allows a player to create, edit, delete and warp to private warps."
     default: true
+  easywarp.invite:
+    description: "Allows a player to invite others to a warp."
+    default: false
+  easywarp.manage:
+    description: "Allows a player to manage all existing warps, including those belonging to other players."
+    default: op

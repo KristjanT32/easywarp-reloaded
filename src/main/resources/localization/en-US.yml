@@ -1,0 +1,48 @@
+languageName: "English (US)"
+
+commands:
+  warp:
+    notyours: "&cCannot warp - you do not own that private warp."
+    notfound: "&cCouldn't locate warp &f'&b%warp%&f'"
+    invalid: "&cInvalid invite: &efailed to locate the target warp."
+    notvalid: "&cThis invite is no longer valid."
+
+    invite-invalid-used: "&cThis invite has no uses left. &fRequest a new one from the sender."
+    unknown-operation: "&cUnknown operation."
+  createwarp:
+    public:
+      success: "&aPublic warp &f\"%warp%&f\" &acreated successfully."
+      taken: "&f[&c!&f] &cSorry, but this warp id is already taken. Try another one."
+      io_error: "&f[&c!&f] &cAn internal error was encountered while creating the warp. Check the logs for more info."
+      syntax: "&f[&c!&f] &cInvalid syntax: &f/createwarp &epublic &7<warpId> [displayName]"
+    private:
+      success: "&aPrivate warp &f\"%warp%&f\" &acreated successfully."
+      exists: "&f[&c!&f] &cSorry, but a private warp already exists with this id."
+      io_error: "&f[&c!&f] &cAn internal error was encountered while creating the warp. Check the logs for more info."
+      syntax: "&f[&c!&f] &cInvalid syntax: &f/createwarp &eprivate &7<warpId> [displayName]"
+    not_a_player: "&f[&c!&f] &cSorry, but you need to be a player to execute this command."
+    syntax: "&f[&c!&f] &cInvalid syntax: &f/createwarp &7<private/public> <warpId> [displayName]"
+
+  invite:
+    playeronly: "&cSorry, but this command can only be executed by a player."
+    offline: "&cIt appears that &b%player% &cis offline."
+    invalidplayer: "&cCould not find &b%player%&c."
+
+    sent: "&aInvite sent to &b%player%&a!"
+
+  back:
+    playeronly: "&cSorry, but this command can only be executed by a player."
+    nolocation: "&cNowhere to return to."
+    dim-disabled: "&cSorry, but dimensional warping is disabled."
+    returned: "&aReturned to the previous location."
+
+  invites:
+    nonexistent: "&cThe specified warp does not exist."
+    notyours: "&cCannot view invites for another player's warp."
+    none: "&cThere's no valid invites for &b%warp%&c."
+
+    invite: "&aInvite &7%id% &e\n  - &f(&buses left: &a%uses%&f, &bplayer: &a%player%&f)&r - "
+    button-invalidate: "&f[&cInvalidate&f]"
+    button-invalidate-hover: "&c&lInvalidate invite\n&7If you wish to revoke this invite, stopping the target player from using it to get to your warp, click on this button."
+
+    invalidated: "&aSuccessfully invalidated the invite. Players won't be able to use it anymore."

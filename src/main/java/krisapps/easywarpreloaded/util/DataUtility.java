@@ -55,7 +55,7 @@ public class DataUtility {
         Duration dur = Duration.between(startInstant, endInstant);
 
         if (dur.isNegative()) {
-            return main.localizationUtility.getLocalizedPhrase("messages.timer-moment");
+            return main.localizationUtility.getLocalizedString("messages.timer-moment");
         }
 
         long hours = Math.abs(dur.toHours());
@@ -248,14 +248,19 @@ public class DataUtility {
     public void sendPrivateWarpInvite(Player target, Player sender, String warpID, int uses, boolean isPrivate) {
         UUID inviteID = createInvite(sender, target, warpID, uses);
 
-        BaseComponent component = new TextComponent(ChatColor.translateAlternateColorCodes('&', main.localizationUtility.getLocalizedPhrase("messages.invite-header")
+        BaseComponent component = new TextComponent(ChatColor.translateAlternateColorCodes('&',
+                main.localizationUtility.getLocalizedString("messages.invite-header")
                 .replaceAll("%warp%", getProperty(WarpProperty.DISPLAY_NAME, warpID, isPrivate).toString())
                 .replaceAll("%sender%", sender.getName())
                 .replaceAll("%uses%", String.valueOf(getInviteUses(inviteID)))
         ));
-        BaseComponent component2 = new TextComponent(ChatColor.translateAlternateColorCodes('&', main.localizationUtility.getLocalizedPhrase("messages.invite-button-prefix")));
+        BaseComponent component2 = new TextComponent(ChatColor.translateAlternateColorCodes('&',
+                main.localizationUtility.getLocalizedString("messages.invite-button-prefix")
+        ));
         BaseComponent button = main.messageUtility.createClickableButton("messages.invite-warp-button", "/warp -i " + inviteID.toString(), "messages.hovertext.warp-button");
-        BaseComponent footer = new TextComponent(ChatColor.translateAlternateColorCodes('&', main.localizationUtility.getLocalizedPhrase("messages.invite-footer")));
+        BaseComponent footer = new TextComponent(ChatColor.translateAlternateColorCodes('&',
+                main.localizationUtility.getLocalizedString("messages.invite-footer")
+        ));
 
         target.spigot().sendMessage(component, component2, button, footer);
     }

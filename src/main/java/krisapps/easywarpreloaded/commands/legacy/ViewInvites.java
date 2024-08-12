@@ -1,4 +1,4 @@
-package krisapps.easywarpreloaded.commands;
+package krisapps.easywarpreloaded.commands.legacy;
 
 import krisapps.easywarpreloaded.EasyWarpReloaded;
 import krisapps.easywarpreloaded.types.Invite;
@@ -30,12 +30,16 @@ public class ViewInvites implements CommandExecutor {
                 if (main.dataUtility.inviteExists(UUID.fromString(args[1]))) {
                     main.appendToLog("Invalidated invite by user request: " + args[1]);
                     main.dataUtility.invalidateInvite(args[1]);
-                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.invites.invalidated"));
+                    main.messageUtility.sendMessage(sender,
+                            main.localizationUtility.getLocalizedString("commands.invites.invalidated")
+                    );
                 }
             }
         } else if (args.length == 1) {
             if (!main.dataUtility.warpExists(args[0])) {
-                main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.invites.nonexistent"));
+                main.messageUtility.sendMessage(sender,
+                        main.localizationUtility.getLocalizedString("commands.invites.nonexistent")
+                );
                 return true;
             }
 
@@ -43,7 +47,9 @@ public class ViewInvites implements CommandExecutor {
                 if (sender.isOp()) {
                     sendResponse(sender, args[0]);
                 } else {
-                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.invites.notyours"));
+                    main.messageUtility.sendMessage(sender,
+                            main.localizationUtility.getLocalizedString("commands.invites.notyours")
+                    );
                 }
             } else {
                 sendResponse(sender, args[0]);
@@ -59,7 +65,9 @@ public class ViewInvites implements CommandExecutor {
             for (Invite invite : main.dataUtility.getInviteEntriesFor(warpID)) {
 
                 BaseComponent button = main.messageUtility.createClickableButton("commands.invites.button-invalidate", "/invites -i " + invite.getInviteID(), "commands.invites.button-invalidate-hover");
-                BaseComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', main.localizationUtility.getLocalizedPhrase("commands.invites.invite")
+                BaseComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&',
+                        main.localizationUtility
+                                .getLocalizedString("commands.invites.invite")
                         .replaceAll("%id%", invite.getInviteID().toString())
                         .replaceAll("%uses%", String.valueOf(invite.getUsesLeft()))
                         .replaceAll("%player%", invite.getTo().getPlayer() == null ? "unknown player" : invite.getTo().getName())));
@@ -67,7 +75,7 @@ public class ViewInvites implements CommandExecutor {
                 sender.spigot().sendMessage(message, button, new TextComponent("\n"));
             }
         } else {
-            main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.invites.none")
+            main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedString("commands.invites.none")
                     .replaceAll("%warp%", warpID)
             );
         }

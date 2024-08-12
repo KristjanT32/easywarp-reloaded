@@ -1,4 +1,4 @@
-package krisapps.easywarpreloaded.commands;
+package krisapps.easywarpreloaded.commands.legacy;
 
 import krisapps.easywarpreloaded.EasyWarpReloaded;
 import krisapps.easywarpreloaded.types.WarpEntry;
@@ -11,11 +11,11 @@ import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
-public class WarpManager implements CommandExecutor {
+public class WarpManCommand implements CommandExecutor {
 
     EasyWarpReloaded main;
 
-    public WarpManager(EasyWarpReloaded main) {
+    public WarpManCommand(EasyWarpReloaded main) {
         this.main = main;
     }
 
@@ -31,11 +31,13 @@ public class WarpManager implements CommandExecutor {
                         if (!main.dataUtility.warpExists(args[1])) {
                             boolean isPrivate = args[2].equalsIgnoreCase("private");
                             main.dataUtility.createWarp(args[1], "Warp " + args[1], ((Player) sender).getLocation(), ((Player) sender), isPrivate);
-                            main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.created")
+                            main.messageUtility.sendMessage(sender,
+                                    main.localizationUtility.getLocalizedString("commands.warpman.created")
                                     .replaceAll("%warp%", args[1])
                             );
                         } else {
-                            main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.create.taken")
+                            main.messageUtility.sendMessage(sender,
+                                    main.localizationUtility.getLocalizedString("commands.warpman.create.taken")
                                     .replaceAll("%warp%", args[1])
                             );
                         }
@@ -45,12 +47,16 @@ public class WarpManager implements CommandExecutor {
                     if (args.length >= 4) {
                         String warpID = args[1];
                         if (!main.dataUtility.warpExists(warpID)) {
-                            main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.nowarp"));
+                            main.messageUtility.sendMessage(sender,
+                                    main.localizationUtility.getLocalizedString("commands.warpman.nowarp")
+                            );
                             return true;
                         } else {
                             if (main.dataUtility.isPrivate(warpID)) {
                                 if (!main.dataUtility.getOwner(warpID, true).toString().equals(((Player) sender).getUniqueId().toString())) {
-                                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.notyours"));
+                                    main.messageUtility.sendMessage(sender,
+                                            main.localizationUtility.getLocalizedString("commands.warpman.notyours")
+                                    );
                                     return true;
                                 }
                             }
@@ -63,7 +69,9 @@ public class WarpManager implements CommandExecutor {
                             newValue.append(args[i]).append(" ");
                         }
                         if (newValue.toString().isEmpty()) {
-                            main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.nonempty"));
+                            main.messageUtility.sendMessage(sender,
+                                    main.localizationUtility.getLocalizedString("commands.warpman.nonempty")
+                            );
                             return true;
                         }
 
@@ -87,7 +95,9 @@ public class WarpManager implements CommandExecutor {
                                     main.dataUtility.updateWarpEntry(warpID, "location.dimension", String.valueOf(((Player) sender).getLocation().getWorld().getEnvironment()),
                                             isPrivate);
 
-                                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.edit.success-coords")
+                                    main.messageUtility.sendMessage(sender,
+                                            main.localizationUtility
+                                                    .getLocalizedString("commands.warpman.edit.success-coords")
                                             .replaceAll("%x%", String.valueOf(x))
                                             .replaceAll("%y%", String.valueOf(y))
                                             .replaceAll("%z%", String.valueOf(z))
@@ -110,7 +120,9 @@ public class WarpManager implements CommandExecutor {
                                         main.dataUtility.updateWarpEntry(warpID, "location.dimension", String.valueOf(locationToSet.getWorld().getEnvironment()),
                                                 isPrivate);
 
-                                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.edit.success-current")
+                                        main.messageUtility.sendMessage(sender,
+                                                main.localizationUtility
+                                                        .getLocalizedString("commands.warpman.edit.success-current")
                                                 .replaceAll("%x%", String.valueOf(locationToSet.getBlockX()))
                                                 .replaceAll("%y%", String.valueOf(locationToSet.getBlockY()))
                                                 .replaceAll("%z%", String.valueOf(locationToSet.getBlockZ()))
@@ -122,7 +134,9 @@ public class WarpManager implements CommandExecutor {
                                 break;
                             case DISPLAY_NAME:
                                 main.dataUtility.updateWarpEntry(warpID, "displayName", newValue.toString().trim(), isPrivate);
-                                main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.edit.success-generic")
+                                main.messageUtility.sendMessage(sender,
+                                        main.localizationUtility
+                                                .getLocalizedString("commands.warpman.edit.success-generic")
                                         .replaceAll("%property%", property)
                                         .replaceAll("%value%", newValue.toString().trim())
                                         .replaceAll("%warp%", warpID)
@@ -130,7 +144,9 @@ public class WarpManager implements CommandExecutor {
                                 break;
                             case WELCOME_MESSAGE:
                                 main.dataUtility.updateWarpEntry(warpID, "welcomeMessage", newValue.toString().trim(), isPrivate);
-                                main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.edit.success-generic")
+                                main.messageUtility.sendMessage(sender,
+                                        main.localizationUtility
+                                                .getLocalizedString("commands.warpman.edit.success-generic")
                                         .replaceAll("%property%", property)
                                         .replaceAll("%value%", newValue.toString().trim())
                                         .replaceAll("%warp%", warpID)
@@ -148,7 +164,8 @@ public class WarpManager implements CommandExecutor {
                     if (args.length >= 2) {
                         String warpID = args[1];
                         if (!main.dataUtility.warpExists(warpID)) {
-                            main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.delete.nonexistent")
+                            main.messageUtility.sendMessage(sender,
+                                    main.localizationUtility.getLocalizedString("commands.warpman.delete.nonexistent")
                                     .replaceAll("%warp%", warpID)
                             );
                             return true;
@@ -158,10 +175,17 @@ public class WarpManager implements CommandExecutor {
                             // If the sender is not the owner of the warp in question.
                             if (!main.dataUtility.getOwner(warpID, true).toString().equals(((Player) sender).getUniqueId().toString())) {
                                 if (!sender.isOp()) {
-                                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpmap.delete.notyours"));
+                                    main.messageUtility.sendMessage(sender,
+                                            main.localizationUtility.getLocalizedString(
+                                                    "commands.warpmap.delete.notyours")
+                                    );
                                 } else {
-                                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.delete.deleted-notown"));
-                                    main.messageUtility.trySendMessage(main.dataUtility.getOwner(warpID, true), main.localizationUtility.getLocalizedPhrase("messages.op-warp-deletion")
+                                    main.messageUtility.sendMessage(sender,
+                                            main.localizationUtility.getLocalizedString(
+                                                    "commands.warpman.delete.deleted-notown")
+                                    );
+                                    main.messageUtility.trySendMessage(main.dataUtility.getOwner(warpID, true),
+                                            main.localizationUtility.getLocalizedString("messages.op-warp-deletion")
                                             .replaceAll("%warp%", warpID)
                                             .replaceAll("%op%", sender.getName())
                                     );
@@ -169,20 +193,32 @@ public class WarpManager implements CommandExecutor {
                                 }
                             } else {
                                 main.dataUtility.deleteWarp(warpID);
-                                main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.delete.deleted-own"));
+                                main.messageUtility.sendMessage(sender,
+                                        main.localizationUtility.getLocalizedString(
+                                                "commands.warpman.delete.deleted-own")
+                                );
                             }
                         } else {
                             // Deleting a public warp
                             if (!main.dataUtility.getOwner(warpID, true).toString().equals(((Player) sender).getUniqueId().toString())) {
                                 if (!sender.isOp()) {
-                                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpmap.delete.notyours"));
+                                    main.messageUtility.sendMessage(sender,
+                                            main.localizationUtility.getLocalizedString(
+                                                    "commands.warpmap.delete.notyours")
+                                    );
                                 } else {
                                     main.dataUtility.deleteWarp(warpID);
-                                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.delete.deleted-public"));
+                                    main.messageUtility.sendMessage(sender,
+                                            main.localizationUtility.getLocalizedString(
+                                                    "commands.warpman.delete.deleted-public")
+                                    );
                                 }
                             } else {
                                 main.dataUtility.deleteWarp(warpID);
-                                main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.delete.deleted-public"));
+                                main.messageUtility.sendMessage(sender,
+                                        main.localizationUtility.getLocalizedString(
+                                                "commands.warpman.delete.deleted-public")
+                                );
                             }
                         }
                     } else {
@@ -196,16 +232,25 @@ public class WarpManager implements CommandExecutor {
                             case "all":
                                 if (sender.isOp()) {
                                     main.messageUtility.sendMessage(sender, "&e========================================");
-                                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.list.header")
-                                            .replaceAll("%type%", main.localizationUtility.getLocalizedPhrase("commands.warpman.list.list-type-all"))
+                                    main.messageUtility.sendMessage(sender,
+                                            main.localizationUtility
+                                                    .getLocalizedString("commands.warpman.list.header")
+                                                    .replaceAll("%type%",
+                                                            main.localizationUtility.getLocalizedString(
+                                                                    "commands.warpman.list.list-type-all")
+                                                    )
                                     );
                                     for (WarpEntry warpEntry : main.dataUtility.getAllWarps()) {
                                         Optional<Player> owner = main.dataUtility.tryGetPlayer(warpEntry.getOwner());
-                                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.list.list-item")
+                                        main.messageUtility.sendMessage(sender,
+                                                main.localizationUtility
+                                                        .getLocalizedString("commands.warpman.list.list-item")
                                                 .replaceAll("%warp%",
                                                         (warpEntry.getType().equalsIgnoreCase("public")
-                                                                ? "&b&l" + main.localizationUtility.getLocalizedPhrase("commands.warpman.view.warp-type-public")
-                                                                : "&c&l" + main.localizationUtility.getLocalizedPhrase("commands.warpman.view.warp-type-private")
+                                                                ? "&b&l" + main.localizationUtility.getLocalizedString(
+                                                                "commands.warpman.view.warp-type-public")
+                                                                : "&c&l" + main.localizationUtility.getLocalizedString(
+                                                                        "commands.warpman.view.warp-type-private")
                                                         ) + " &r&e-&r " +
                                                                 warpEntry.getWarpID())
                                                 .replaceAll("%owner%", owner.isPresent() ? owner.get().getName() : "&cN/A")
@@ -213,64 +258,97 @@ public class WarpManager implements CommandExecutor {
                                     }
                                     main.messageUtility.sendMessage(sender, "&e========================================");
                                 } else {
-                                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.list.notallowed"));
+                                    main.messageUtility.sendMessage(sender,
+                                            main.localizationUtility.getLocalizedString(
+                                                    "commands.warpman.list.notallowed")
+                                    );
                                 }
                                 break;
                             case "public":
                                 if (!main.dataUtility.getPublicWarps().isEmpty()) {
                                     main.messageUtility.sendMessage(sender, "&e========================================");
-                                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.list.header")
-                                            .replaceAll("%type%", main.localizationUtility.getLocalizedPhrase("commands.warpman.list.list-type-public"))
+                                    main.messageUtility.sendMessage(sender,
+                                            main.localizationUtility
+                                                    .getLocalizedString("commands.warpman.list.header")
+                                                    .replaceAll("%type%",
+                                                            main.localizationUtility.getLocalizedString(
+                                                                    "commands.warpman.list.list-type-public")
+                                                    )
                                     );
 
                                     for (String warpID : main.dataUtility.getPublicWarps()) {
                                         Optional<Player> owner = main.dataUtility.tryGetPlayer(main.dataUtility.getOwner(warpID, false));
-                                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.list.list-item")
+                                        main.messageUtility.sendMessage(sender,
+                                                main.localizationUtility
+                                                        .getLocalizedString("commands.warpman.list.list-item")
                                                 .replaceAll("%warp%", warpID)
                                                 .replaceAll("%owner%", owner.isPresent() ? owner.get().getName() : "&cN/A")
                                         );
                                     }
                                     main.messageUtility.sendMessage(sender, "&e========================================");
                                 } else {
-                                    main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.list.empty-public"));
+                                    main.messageUtility.sendMessage(sender,
+                                            main.localizationUtility.getLocalizedString(
+                                                    "commands.warpman.list.empty-public")
+                                    );
                                 }
                                 break;
                             case "private":
                                 if (!sender.isOp()) {
                                     if (!main.dataUtility.getPrivateWarpsForPlayer(((Player) sender).getUniqueId()).isEmpty()) {
                                         main.messageUtility.sendMessage(sender, "&e========================================");
-                                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.list.header")
-                                                .replaceAll("%type%", main.localizationUtility.getLocalizedPhrase("commands.warpman.list.list-type-private"))
+                                        main.messageUtility.sendMessage(sender,
+                                                main.localizationUtility
+                                                        .getLocalizedString("commands.warpman.list.header")
+                                                        .replaceAll("%type%",
+                                                                main.localizationUtility.getLocalizedString(
+                                                                        "commands.warpman.list.list-type-private")
+                                                        )
                                         );
 
                                         for (String warpID : main.dataUtility.getPrivateWarpsForPlayer(((Player) sender).getUniqueId())) {
                                             Optional<Player> owner = main.dataUtility.tryGetPlayer(main.dataUtility.getOwner(warpID, true));
-                                            main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.list.list-item")
+                                            main.messageUtility.sendMessage(sender,
+                                                    main.localizationUtility
+                                                            .getLocalizedString("commands.warpman.list.list-item")
                                                     .replaceAll("%warp%", warpID)
                                                     .replaceAll("%owner%", owner.isPresent() ? owner.get().getName() : "&cN/A")
                                             );
                                         }
                                         main.messageUtility.sendMessage(sender, "&e========================================");
                                     } else {
-                                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.list.empty-private"));
+                                        main.messageUtility.sendMessage(sender,
+                                                main.localizationUtility.getLocalizedString(
+                                                        "commands.warpman.list.empty-private")
+                                        );
                                     }
                                 } else {
                                     if (!main.dataUtility.getPrivateWarps().isEmpty()) {
                                         main.messageUtility.sendMessage(sender, "&e========================================");
-                                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.list.header")
-                                                .replaceAll("%type%", main.localizationUtility.getLocalizedPhrase("commands.warpman.list.list-type-private"))
+                                        main.messageUtility.sendMessage(sender,
+                                                main.localizationUtility
+                                                        .getLocalizedString("commands.warpman.list.header")
+                                                        .replaceAll("%type%",
+                                                                main.localizationUtility.getLocalizedString(
+                                                                        "commands.warpman.list.list-type-private")
+                                                        )
                                         );
 
                                         for (String warpID : main.dataUtility.getPrivateWarps()) {
                                             Optional<Player> owner = main.dataUtility.tryGetPlayer(main.dataUtility.getOwner(warpID, true));
-                                            main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.list.list-item")
+                                            main.messageUtility.sendMessage(sender,
+                                                    main.localizationUtility
+                                                            .getLocalizedString("commands.warpman.list.list-item")
                                                     .replaceAll("%warp%", warpID)
                                                     .replaceAll("%owner%", owner.isPresent() ? owner.get().getName() : "&cN/A")
                                             );
                                         }
                                         main.messageUtility.sendMessage(sender, "&e========================================");
                                     } else {
-                                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.list.empty-private-op"));
+                                        main.messageUtility.sendMessage(sender,
+                                                main.localizationUtility.getLocalizedString(
+                                                        "commands.warpman.list.empty-private-op")
+                                        );
                                     }
                                 }
                                 break;
@@ -288,7 +366,10 @@ public class WarpManager implements CommandExecutor {
                                     sendResponse(sender, warpID, true);
                                 } else {
                                     if (!sender.isOp()) {
-                                        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.view.notyours"));
+                                        main.messageUtility.sendMessage(sender,
+                                                main.localizationUtility.getLocalizedString(
+                                                        "commands.warpman.view.notyours")
+                                        );
                                     } else {
                                         sendResponse(sender, warpID, true);
                                     }
@@ -297,7 +378,8 @@ public class WarpManager implements CommandExecutor {
                                 sendResponse(sender, warpID, false);
                             }
                         } else {
-                            main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.view.notfound")
+                            main.messageUtility.sendMessage(sender,
+                                    main.localizationUtility.getLocalizedString("commands.warpman.view.notfound")
                                     .replaceAll("%warp%", warpID)
                             );
                         }
@@ -318,7 +400,9 @@ public class WarpManager implements CommandExecutor {
     private void sendResponse(CommandSender sender, String warpID, boolean isPrivate) {
         Location warpLocation = (Location) main.dataUtility.getProperty(WarpProperty.LOCATION, warpID, isPrivate);
         Optional<Player> owner = main.dataUtility.tryGetPlayer(main.dataUtility.getOwner(warpID, isPrivate));
-        main.messageUtility.sendMessage(sender, main.localizationUtility.getLocalizedPhrase("commands.warpman.view.response")
+        main.messageUtility.sendMessage(sender,
+                main.localizationUtility
+                        .getLocalizedString("commands.warpman.view.response")
                 .replaceAll("%warp%", warpID)
                 .replaceAll("%name%", main.dataUtility.getProperty(WarpProperty.DISPLAY_NAME, warpID, isPrivate).toString())
                 .replaceAll("%owner%", owner.isPresent() ? owner.get().getName() : main.dataUtility.getOwner(warpID, isPrivate).toString())
@@ -326,7 +410,13 @@ public class WarpManager implements CommandExecutor {
                 .replaceAll("%y%", String.valueOf(warpLocation.getBlockY()))
                 .replaceAll("%z%", String.valueOf(warpLocation.getBlockZ()))
                 .replaceAll("%dimension%", String.valueOf(warpLocation.getWorld().getEnvironment()))
-                .replaceAll("%type%", (isPrivate ? main.localizationUtility.getLocalizedPhrase("commands.warpman.view.warp-type-private") : main.localizationUtility.getLocalizedPhrase("commands.warpman.view.warp-type-public")))
+                        .replaceAll("%type%",
+                                (isPrivate
+                                        ? main.localizationUtility.getLocalizedString(
+                                        "commands.warpman.view.warp-type-private")
+                                        : main.localizationUtility.getLocalizedString(
+                                                "commands.warpman.view.warp-type-public"))
+                        )
                 .replaceAll("%creationDate%", main.dataUtility.getProperty(WarpProperty.CREATION_DATE, warpID, isPrivate).toString())
         );
     }
